@@ -1,0 +1,35 @@
+Berry
+------
+Berry is an interpreter for a language that is easy to understand and resembles Python. It was
+designed with 3 purposes -
+    1. To serve as an acad project
+    2. Use this opportunity to learn critical C++ concepts (C++11 & newer, memory, inheritance etc)
+    3. Help beginners understand how interpreters are usually designed and introduce beginners
+       to concepts of programming.
+
+Build instructions
+---------------------
+1. Clone the repo
+2. In the root folder, run -
+   a. mkdir Bin
+   b. make && make clean
+
+This will produce the required binary file in the Bin folder.
+
+Note that Berry is still in very early stages. It does not necessarily aim to match the level of
+standards and details implemented by other industry standard compilers and interpreters.
+
+Internal Architecture
+---------------------
+Source File -> Source Line -> Lexer -> Tokens -> AST -> Parser
+
+Lexer tokenizes the source line into tokens (Each token is classified into a type. This info is
+preserved with the tokens). These tokens are passed to AST. AST then determines the type and converts
+into it's respective AST node. For ex. Declarative statements are converted to AstDeclrNode. During the
+converstion, Parser is invoked to check the syntax validity. These nodes are then inserted into the AST.
+When the whole program is processed, Bind then visits the nodes and invokes them, thereby executing the
+specified instruction.
+
+Valgrind Report
+---------------
+No memory leaks
