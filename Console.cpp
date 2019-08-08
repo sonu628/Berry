@@ -12,11 +12,34 @@ void Console::println(
 
   std::shared_ptr<AstPrintNode> PrintNode =
       std::dynamic_pointer_cast<AstPrintNode>(node);
-  std::string idf = PrintNode->getIdentifier(), val;
+  std::string val;
+  TOKENS tokens = PrintNode->getTokens();
 
-  val = Token::getKind(idf[0]) == Token::Kind::DoubleQuote
-            ? idf
-            : symbolTable.getSymbolValue(idf, 0);
+  if (static_cast<int>(tokens.size()) == 2) {
+    /**
+     * print[ln] <token_1>
+     *            ^^^^^^^ most likely to be a var.
+     */
+    val = tokens[1].first;
+    if (Token::getKind(val[0]) == Token::Kind::Dollar) {
+      val.erase(0, 1);
+    }
+
+    val = symbolTable.getSymbolValue(val, 0);
+  } else {
+    std::for_each(
+        ++std::begin(tokens), std::end(tokens),
+        [&symbolTable,
+         &val](std::pair<std::string, std::string> p) {
+          std::string s = p.first;
+          if (Token::getKind(s[0]) == Token::Kind::Dollar) {
+            s.erase(0, 1);
+            val += symbolTable.getSymbolValue(s, 0) + " ";
+          } else {
+            val += s + " ";
+          }
+        });
+  }
 
   if (Token::isValidLiteral(val)) {
     Token::trimQuotes(val);
