@@ -27,6 +27,11 @@ private:
   std::unordered_set<std::string> _syntaxToken = {
       "\"", "'", "(", ")", "{", "}", "[", "]"};
 
+  std::vector<std::pair<std::unordered_set<std::string>,
+                        std::string>>
+      _types = {{_opToken, KIND_OPERATOR},
+                {_syntaxToken, KIND_SYNTAX}};
+
 public:
   Lexer(std::string sourceFile, SymbolTable &symbolTable);
   std::string getFileExtension(void);

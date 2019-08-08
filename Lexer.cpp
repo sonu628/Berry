@@ -39,19 +39,16 @@ bool Lexer::openFile(void) {
 }
 
 std::string Lexer::_classifyToken(std::string token) {
-  std::unordered_set<std::string>::iterator itr =
-      _opToken.find(token);
-
-  if (itr != std::end(_opToken)) {
-    return KIND_OPERATOR;
+  std::string type = KIND_UK;
+  for (std::pair<std::unordered_set<std::string>,
+                 std::string>
+           p : _types) {
+    if (p.first.find(token) != std::end(p.first)) {
+      type = p.second;
+    }
   }
 
-  itr = _syntaxToken.find(token);
-  if (itr != std::end(_syntaxToken)) {
-    return KIND_SYNTAX;
-  }
-
-  return KIND_UK;
+  return type;
 }
 
 bool Lexer::readLine(void) {
