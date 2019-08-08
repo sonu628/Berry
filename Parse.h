@@ -52,7 +52,7 @@ private:
 
 public:
   Println(TOKENS tokens, SymbolTable &symbolTable);
-  std::string getIdentifier(void);
+  TOKENS getTokens(void);
 };
 
 struct Readln {

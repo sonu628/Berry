@@ -182,31 +182,9 @@ Parse::Println::Println(TOKENS tokens,
     /* If not, we should be expecting only 1 token. */
     Parse::Assert(static_cast<int>(tokens.size()), 2);
   }
-
-  std::for_each(
-      std::begin(_tokens), std::end(_tokens),
-      [&symbolTable](
-          std::pair<std::string, std::string> &p) {
-        if (Token::getKind(p.first[0]) ==
-            Token::Kind::Dollar) {
-          std::string s = p.first;
-          s.erase(0, 1);
-          p = {symbolTable.getSymbolValue(s, 0), p.second};
-        }
-      });
 }
 
-std::string Parse::Println::getIdentifier(void) {
-  std::string idf;
-  std::for_each(
-      std::begin(_tokens) + 1, std::end(_tokens),
-      [&idf](std::pair<std::string, std::string> p) {
-        idf += p.first + " ";
-      });
-
-  idf.erase(idf.size() - 1, 1);
-  return idf;
-}
+TOKENS Parse::Println::getTokens(void) { return _tokens; }
 
 Parse::Readln::Readln(TOKENS tokens)
     : _tokens(tokens), _identifier(tokens[1].first) {
