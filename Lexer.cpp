@@ -76,16 +76,16 @@ Lexer::tokenize(void) {
 
   int nquote = 0;
   for (; itr != end; itr++) {
+    std::string tk = *itr;
     /**
      * We shouldn't be processing/receiving anymore tokens
      * after we've seen the last (closing) double quote.
      */
     if (nquote == 2) {
-      throw std::invalid_argument(
-          Error::Format("Fatal: Received closing quote."));
+      throw std::invalid_argument(Error::Format(
+          Error::tokenAfterQuote, tk.c_str()));
     }
 
-    std::string tk = *itr;
     if (Token::getKind(tk) == Token::Kind::HashTag) {
       return tokens;
     }

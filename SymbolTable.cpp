@@ -40,8 +40,8 @@ SymbolTable::getSymbolValue(std::string symbol,
     return val;
   }
 
-  throw std::invalid_argument(Error::Format(
-      "Symbol not recorded - %s.", symbol.c_str()));
+  throw std::invalid_argument(
+      Error::Format(Error::symbolMissing, symbol.c_str()));
 }
 
 void SymbolTable::incrementStackValue(void) {
@@ -61,7 +61,6 @@ void SymbolTable::recordSymbol(std::string symbol,
     return;
   }
 
-  throw std::invalid_argument(Error::Format(
-      "Fatal: Recording existing symbol - %s.",
-      symbol.c_str()));
+  throw std::invalid_argument(
+      Error::Format(Error::symbolExists, symbol.c_str()));
 }

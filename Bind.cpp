@@ -42,7 +42,7 @@ void Bind::invokeNode(
 
   } else {
     throw std::invalid_argument(Error::Format(
-        "Fatal - Did not bind \"%s\"", keyword.c_str()));
+        Error::invalidKeyword, keyword.c_str()));
   }
 }
 
@@ -54,7 +54,7 @@ unsigned int Bind::invokeAllNodes(
     try {
       invokeNode(node);
     } catch (std::exception &e) {
-      _Console::Write("Error L%d: %s.", nodeCount,
+      _Console::Write(Error::errorInLine, nodeCount,
                       e.what());
       return 1;
     }
