@@ -41,6 +41,8 @@ void Console::println(
         });
   }
 
+  /* Erase extra space at the end. */
+  val.erase(val.size() - 1, 1);
   if (Token::isValidLiteral(val)) {
     Token::trimQuotes(val);
   }
