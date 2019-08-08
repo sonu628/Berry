@@ -29,9 +29,7 @@ TOKENS AstIfNode::getTokens(void) { return _tokens; }
 AstPrintNode::AstPrintNode(TOKENS tokens,
                            SymbolTable &SymbolTable_)
     : Parse::Println(tokens, SymbolTable_),
-      _tokens(tokens) {
-  _identifier = Parse::Println::getIdentifier();
-}
+      _tokens(tokens) {}
 
 TOKENS AstPrintNode::getTokens(void) { return _tokens; }
 

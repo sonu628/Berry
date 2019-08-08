@@ -47,7 +47,6 @@ struct AstPrintNode : public AstStatementNode,
                       Parse::Println {
 private:
   TOKENS _tokens;
-  std::string _identifier;
 
 public:
   AstPrintNode(TOKENS tokens, SymbolTable &SymbolTable_);
