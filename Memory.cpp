@@ -37,11 +37,6 @@ void Memory::Let(std::shared_ptr<AstStatementNode> node,
     value = symbolTable.getSymbolValue(value, 1);
   }
 
-  if (symbolTable.recordExists(symbol)) {
-    throw std::invalid_argument(
-        Error::Format(Error::symbolExists, symbol.c_str()));
-  }
-
   if (value.substr(1, 6) == "__kind") {
     throw std::invalid_argument(
         Error::Format(Error::reservedValue, value.c_str()));

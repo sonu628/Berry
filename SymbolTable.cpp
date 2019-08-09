@@ -55,12 +55,9 @@ bool SymbolTable::recordExists(std::string symbol) {
 void SymbolTable::recordSymbol(std::string symbol,
                                std::string kind) {
 
-  SYMBOL_TBL::iterator itr = _table.find(symbol);
-  if (itr == std::end(_table)) {
+  if (!recordExists(symbol)) {
     _table.insert({symbol, kind});
-    return;
+  } else {
+    _table[symbol] = kind;
   }
-
-  throw std::invalid_argument(
-      Error::Format(Error::symbolExists, symbol.c_str()));
 }
