@@ -57,7 +57,7 @@ bool Token::isValidLiteral(std::string s) {
   char beg = s[0];
   char end = s[s.size() - 1];
 
-  for (int i = 1; i < s.size() - 1; i++) {
+  for (unsigned int i = 1; i < s.size() - 1; i++) {
     if (getKind(s[i]) == Kind::SingleQuote ||
         getKind(s[i]) == Kind::DoubleQuote)
       return false;
