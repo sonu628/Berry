@@ -5,7 +5,7 @@
 #include "Error.h"
 #include "Token.h"
 
-TOKENS AstStatementNode::getTokens(void) {}
+TOKENS AstStatementNode::getTokens(void) { return _tokens; }
 
 AstDeclrNode::AstDeclrNode(TOKENS tokens)
     : Parse::Declaration(tokens), _tokens(tokens) {

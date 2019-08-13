@@ -11,6 +11,9 @@
 #include <vector>
 
 struct AstStatementNode {
+private:
+  TOKENS _tokens;
+
 public:
   std::vector<std::shared_ptr<AstStatementNode>> _alt,
       _body;
