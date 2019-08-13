@@ -8,7 +8,7 @@
 #include "SymbolTable.h"
 #include <cassert>
 #include <iostream>
-
+#include <string>
 
 void dumpHeaders(void) {
   std::cout << "Berry Beta" << std::endl
