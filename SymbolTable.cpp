@@ -32,7 +32,7 @@ SymbolTable::getSymbolValue(std::string symbol,
                             unsigned int presQuotes) {
   if (recordExists(symbol)) {
     std::string val = _table[symbol];
-    if (!presQuotes) {
+    if (!presQuotes && static_cast<int>(val.size()) > 0) {
       val.erase(0, 1);
       val.erase(val.size() - 1, 1);
     }

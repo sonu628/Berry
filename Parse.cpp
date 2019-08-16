@@ -73,6 +73,13 @@ Parse::Declaration::Declaration(TOKENS tokens)
    * rules.
    */
   _sep = EQUAL;
+  if (static_cast<int>(tokens.size()) == 2) {
+    TOKENS::iterator beg = std::begin(tokens);
+    TOKENS::iterator end = std::begin(tokens) + 2;
+    std::copy(beg, end, std::back_inserter(_lhs));
+    return;
+  }
+
   Parse::Assert(_tokens[2].first, EQUAL);
   Parse::Assert(_tokens[2].second, KIND_OPERATOR);
 
@@ -111,7 +118,9 @@ Parse::Declaration::Declaration(TOKENS tokens)
 }
 
 std::string Parse::Declaration::getVal(void) {
-  return Parse::wrapToken(_tokens, 3, 5);
+  return static_cast<int>(_tokens.size()) == 2
+             ? ""
+             : Parse::wrapToken(_tokens, 3, 5);
 }
 
 std::string Parse::Declaration::getVar(void) {

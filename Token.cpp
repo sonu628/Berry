@@ -54,6 +54,10 @@ enum Token::Kind Token::getKind(std::string s) {
 }
 
 bool Token::isValidLiteral(std::string s) {
+  if (static_cast<int>(s.size()) == 0) {
+    return false;
+  }
+  
   char beg = s[0];
   char end = s[s.size() - 1];
 

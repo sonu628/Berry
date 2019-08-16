@@ -31,13 +31,14 @@ void Memory::Let(std::shared_ptr<AstStatementNode> node,
       std::dynamic_pointer_cast<AstDeclrNode>(node);
   std::string symbol = DeclrNode->getVar();
   std::string value = DeclrNode->getVal();
+  const int klen = static_cast<int>(value.size());
 
-  if (Token::getKind(value[0]) !=
-      Token::Kind::DoubleQuote) {
+  if (klen > 0 && Token::getKind(value[0]) !=
+                      Token::Kind::DoubleQuote) {
     value = symbolTable.getSymbolValue(value, 1);
   }
 
-  if (value.substr(1, 6) == "__kind") {
+  if (klen > 0 && value.substr(1, 6) == "__kind") {
     throw std::invalid_argument(
         Error::Format(Error::reservedValue, value.c_str()));
   }

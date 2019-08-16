@@ -21,7 +21,8 @@ void Console::println(
      *            ^^^^^^^ most likely to be a var.
      */
     val = tokens[1].first;
-    if (Token::getKind(val[0]) == Token::Kind::Dollar) {
+    if (static_cast<int>(val.size()) > 0 &&
+        Token::getKind(val[0]) == Token::Kind::Dollar) {
       val.erase(0, 1);
     }
 
@@ -32,7 +33,9 @@ void Console::println(
         [&symbolTable,
          &val](std::pair<std::string, std::string> p) {
           std::string s = p.first;
-          if (Token::getKind(s[0]) == Token::Kind::Dollar) {
+          
+          if (static_cast<int>(s.size()) > 0 &&
+              Token::getKind(s[0]) == Token::Kind::Dollar) {
             s.erase(0, 1);
             val += symbolTable.getSymbolValue(s, 0) + " ";
           } else {
