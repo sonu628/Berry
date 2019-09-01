@@ -17,7 +17,9 @@ Build instructions
 This will produce the required binary file in the Bin folder.
 
 Note that Berry is still in very early stages. It does not necessarily aim to match the level of
-standards and details implemented by other industry standard compilers and interpreters.
+standards and details implemented by other industry standard compilers and interpreters. You will
+see that Berry's AST is quite different from what is considered standard. Work is still in progress.
+Expect to see a much mature and correct version of the AST soon.
 
 Internal Architecture
 ---------------------
