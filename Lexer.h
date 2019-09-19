@@ -17,8 +17,8 @@ private:
   std::string _sourceFile;
   unsigned int _lineNumber;
   SymbolTable &_SymbolTable;
-  std::array<char, 1024> _line;
-  std::string _classifyToken(std::string token);
+  std::array<char, 1024> _line{};
+  TokenType _classifyToken(const std::string &token);
 
   std::unordered_set<std::string> _opToken = {
       "=", "<", ">", "==", "<=", ">=", "!=", "+",
@@ -28,18 +28,18 @@ private:
       "\"", "'", "(", ")", "{", "}", "[", "]"};
 
   std::vector<std::pair<std::unordered_set<std::string>,
-                        std::string>>
-      _types = {{_opToken, KIND_OPERATOR},
-                {_syntaxToken, KIND_SYNTAX}};
+                        enum TokenType>>
+      _types = {{_opToken, TokenType::Operator},
+                {_syntaxToken, TokenType::Syntax}};
 
 public:
-  Lexer(std::string sourceFile, SymbolTable &symbolTable);
+  Lexer(std::string sourceFile, SymbolTable &SymbolTable_);
   std::string getFileExtension(void);
   unsigned int getLineNumber(void);
   bool openFile(void);
   bool readLine(void);
-  void setLine(std::string line);
-  std::vector<std::pair<std::string, std::string>>
+  void setLine(const std::string &line);
+  std::vector<std::pair<std::string, TokenType>>
   tokenize(void);
   ~Lexer() {
     if (_fd) {
