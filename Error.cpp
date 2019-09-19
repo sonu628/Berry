@@ -4,22 +4,25 @@
 #include "Error.h"
 
 /* Built-in errors & warnings */
-char Error::errorInLine[64] = "Fatal L%d: %s.";
-char Error::tokenAfterQuote[64] =
-    "Fatal: Parsing token \"%s\" after closing quote";
-char Error::invalidLiteral[64] =
+char Error::errorInLine[] = "Fatal L%d: %s.";
+char Error::invalidFormatting[] = "Fatal: Invalid formatting: \"%s\".";
+char Error::invalidLiteral[] =
     "Fatal: \"%s\" is invalid literal";
-char Error::invalidKeyword[64] =
+char Error::invalidKeyword[] =
     "Fatal: Invalid keyword \"%s\"";
-char Error::reservedValue[64] =
+char Error::noClosingQuote[] =
+    "Fatal: No closing quote received.";
+char Error::reservedValue[] =
     "Fatal: \"%s\" starts with reserved value";
-char Error::symbolExists[64] =
+char Error::symbolExists[] =
     "Fatal: \"%s\" already recorded";
-char Error::symbolMissing[64] =
+char Error::symbolMissing[] =
     "Fatal: missing symbol \"%s\"";
+char Error::tokenAfterQuote[] =
+    "Fatal: Parsing token \"%s\" after closing quote";
 
 void _Console::Write(const char *msg, ...) {
-  std::array<char, 1024> buf;
+  std::array<char, 1024> buf{};
 
   va_list args;
   va_start(args, msg);
@@ -30,7 +33,7 @@ void _Console::Write(const char *msg, ...) {
 }
 
 std::string Error::Format(const char *err, ...) {
-  std::array<char, 1024> buf;
+  std::array<char, 1024> buf{};
 
   va_list args;
   va_start(args, err);

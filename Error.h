@@ -5,8 +5,8 @@
 
 #include <array>
 #include <iostream>
-#include <stdarg.h>
-#include <stdio.h>
+#include <cstdarg>
+#include <cstdio>
 
 namespace _Console {
 void Write(const char *msg, ...);
@@ -17,10 +17,12 @@ std::string Format(const char *err, ...);
 
 /* Always use errors from this namespace */
 extern char errorInLine[];
-extern char tokenAfterQuote[];
+extern char invalidFormatting[];
 extern char invalidLiteral[];
 extern char invalidKeyword[];
+extern char noClosingQuote[];
 extern char reservedValue[];
 extern char symbolExists[];
 extern char symbolMissing[];
+extern char tokenAfterQuote[];
 } // namespace Error
