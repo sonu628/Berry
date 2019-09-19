@@ -3,12 +3,6 @@
 
 #pragma once
 
-#define KIND_BUILTIN_FUNC "__kindBuiltinFunc"
-#define KIND_IDENTIFIER "__kindIdentifier "
-#define KIND_OPERATOR "__kindOperator   "
-#define KIND_SYNTAX "__kindSyntax     "
-#define KIND_UK "__kindUnknown    "
-
 #include "Signatures.h"
 #include <functional>
 #include <unordered_map>
@@ -23,9 +17,10 @@ public:
   void decrementStackValue();
   void dumpContents(void);
   unsigned int getStackValue();
-  std::string getSymbolValue(std::string symbol,
+  std::string getSymbolValue(const std::string &symbol,
                              unsigned int presQuotes);
   void incrementStackValue();
-  bool recordExists(std::string symbol);
-  void recordSymbol(std::string symbol, std::string value);
+  bool recordExists(const std::string &symbol);
+  void recordSymbol(const std::string &symbol,
+                    std::string value);
 };
