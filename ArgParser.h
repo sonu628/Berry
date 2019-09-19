@@ -13,8 +13,8 @@ private:
   std::vector<std::string> _args;
 
 public:
-  Args(AST &AST_);
+  explicit Args(AST &AST_);
   void collect(int argc, char **argv);
-  bool isArgPresent(std::string arg);
+  bool isArgPresent(const std::string& arg);
   void process(void);
 };

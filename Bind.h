@@ -14,8 +14,8 @@ private:
   SymbolTable &_SymbolTable;
 
 public:
-  Bind(SymbolTable &symbolTable);
-  void invokeNode(std::shared_ptr<AstStatementNode> node);
+  explicit Bind(SymbolTable &SymbolTable_);
+  void invokeNode(const std::shared_ptr<AstStatementNode>& node);
   unsigned int invokeAllNodes(
-      std::vector<std::shared_ptr<AstStatementNode>> body);
+      const std::vector<std::shared_ptr<AstStatementNode>>& body);
 };

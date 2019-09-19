@@ -7,7 +7,7 @@
 
 TOKENS AstStatementNode::getTokens(void) { return _tokens; }
 
-AstDeclrNode::AstDeclrNode(TOKENS tokens)
+AstDeclrNode::AstDeclrNode(const TOKENS &tokens)
     : Parse::Declaration(tokens), _tokens(tokens) {
   _val = Parse::Declaration::getVal();
   _var = Parse::Declaration::getVar();
@@ -15,9 +15,9 @@ AstDeclrNode::AstDeclrNode(TOKENS tokens)
 
 TOKENS AstDeclrNode::getTokens(void) { return _tokens; }
 
-DummyNode::DummyNode(TOKENS tokens) {}
+DummyNode::DummyNode(const TOKENS &tokens) {}
 
-AstIfNode::AstIfNode(TOKENS tokens)
+AstIfNode::AstIfNode(const TOKENS &tokens)
     : Parse::If(tokens), _tokens(tokens) {
   _lhs = Parse::If::getLhs();
   _rhs = Parse::If::getRhs();
@@ -26,14 +26,14 @@ AstIfNode::AstIfNode(TOKENS tokens)
 
 TOKENS AstIfNode::getTokens(void) { return _tokens; }
 
-AstPrintNode::AstPrintNode(TOKENS tokens,
+AstPrintNode::AstPrintNode(const TOKENS &tokens,
                            SymbolTable &SymbolTable_)
     : Parse::Println(tokens, SymbolTable_),
       _tokens(tokens) {}
 
 TOKENS AstPrintNode::getTokens(void) { return _tokens; }
 
-AstReadNode::AstReadNode(TOKENS tokens)
+AstReadNode::AstReadNode(const TOKENS &tokens)
     : Parse::Readln(tokens), _tokens(tokens) {
   _identifier = Parse::Readln::getIdentifier();
 }
@@ -43,12 +43,12 @@ TOKENS AstReadNode::getTokens(void) { return _tokens; }
 AST::AST(SymbolTable &SymbolTable_)
     : _lr(0), _SymbolTable(SymbolTable_) {}
 
-void AST::appendNode(TOKENS tokens) {
+void AST::appendNode(const TOKENS &tokens) {
   if (static_cast<int>(tokens.size()) == 0) {
     return;
   }
 
-  auto isBranch = [](std::string keyword) -> bool {
+  auto isBranch = [](const std::string &keyword) -> bool {
     return keyword == IF || keyword == ELSE ||
            keyword == ENDIF;
   };
@@ -111,7 +111,7 @@ AST::getProgramBody(void) {
 }
 
 std::shared_ptr<AstStatementNode>
-AST::toAstNodeType(TOKENS tokens,
+AST::toAstNodeType(const TOKENS &tokens,
                    SymbolTable &SymbolTable_) {
   switch (Token::getKind(tokens[0].first)) {
   case Token::Kind::Declr:
@@ -142,14 +142,14 @@ bool AST::verifyGoodProgram(void) {
 }
 
 void AST::_visitNodes(
-    std::vector<std::shared_ptr<AstStatementNode>> vec) {
+    const std::vector<std::shared_ptr<AstStatementNode>>& vec) {
 
-  for (std::shared_ptr<AstStatementNode> node : vec) {
+  for (const std::shared_ptr<AstStatementNode>& node : vec) {
     if (!node) {
       continue;
     }
 
-    TOKENS tokens = node->getTokens();
+    const TOKENS &tokens = node->getTokens();
     auto itr = tokens.begin();
     std::cout << "|- " << itr++->first << std::endl;
 

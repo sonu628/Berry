@@ -11,17 +11,14 @@ void Args::collect(int argc, char **argv) {
   }
 }
 
-bool Args::isArgPresent(std::string arg) {
+bool Args::isArgPresent(const std::string& arg) {
   std::vector<std::string>::iterator itr =
       std::find(std::begin(_args), std::end(_args), arg);
   return itr != std::end(_args);
 }
 
 void Args::process(void) {
-  for (std::string arg : _args) {
-    if (arg == "--symbol-table")
-      _AST.dumpSymbolTable();
-
+  for (const std::string &arg : _args) {
     if (arg == "--syntax-tree")
       _AST.dumpSyntaxTree();
   }

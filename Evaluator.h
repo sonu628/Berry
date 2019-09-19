@@ -8,6 +8,6 @@
 #include <memory>
 
 namespace Evaluator {
-void Evaluate(std::shared_ptr<AstStatementNode> node,
-              SymbolTable &symbolTable);
+void Evaluate(const std::shared_ptr<AstStatementNode>& node,
+              SymbolTable &SymbolTable_);
 } // namespace Evaluator

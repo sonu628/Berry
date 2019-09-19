@@ -8,8 +8,8 @@
 #include "Evaluator.h"
 #include <algorithm>
 
-Bind::Bind(SymbolTable &symbolTable)
-    : _SymbolTable(symbolTable) {
+Bind::Bind(SymbolTable &SymbolTable_)
+    : _SymbolTable(SymbolTable_) {
   _fmap.insert({"if", Evaluator::Evaluate});
   _fmap.insert({"let", Memory::Let});
   _fmap.insert({"var", Memory::Let});
@@ -19,7 +19,7 @@ Bind::Bind(SymbolTable &symbolTable)
 }
 
 void Bind::invokeNode(
-    std::shared_ptr<AstStatementNode> node) {
+    const std::shared_ptr<AstStatementNode>& node) {
   std::string keyword =
       std::begin(node->getTokens())->first;
 
@@ -29,12 +29,12 @@ void Bind::invokeNode(
     (*itr).second(node, _SymbolTable);
 
     if (_SymbolTable.getStackValue() > stackVal) {
-      for (std::shared_ptr<AstStatementNode> lnode :
+      for (const std::shared_ptr<AstStatementNode>& lnode :
            node->_body) {
         invokeNode(lnode);
       }
     } else {
-      for (std::shared_ptr<AstStatementNode> rnode :
+      for (const std::shared_ptr<AstStatementNode>& rnode :
            node->_alt) {
         invokeNode(rnode);
       }
@@ -47,9 +47,9 @@ void Bind::invokeNode(
 }
 
 unsigned int Bind::invokeAllNodes(
-    std::vector<std::shared_ptr<AstStatementNode>> body) {
+    const std::vector<std::shared_ptr<AstStatementNode>>& body) {
   unsigned int nodeCount = 0;
-  for (std::shared_ptr<AstStatementNode> node : body) {
+  for (const std::shared_ptr<AstStatementNode>& node : body) {
     nodeCount++;
     try {
       invokeNode(node);

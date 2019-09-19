@@ -10,7 +10,7 @@ enum Token::Kind Token::getKind(char c) {
   return getKind(std::string(1, c));
 }
 
-enum Token::Kind Token::getKind(std::string s) {
+enum Token::Kind Token::getKind(const std::string &s) {
   if (s == "=")
     return Token::Kind::EqualTo;
   if (s == "<")

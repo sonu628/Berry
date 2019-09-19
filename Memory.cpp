@@ -6,14 +6,14 @@
 #include "Parse.h"
 #include "Token.h"
 
-void Memory::Get(std::shared_ptr<AstStatementNode> node,
-                 SymbolTable &symbolTable) {
+void Memory::Get(const std::shared_ptr<AstStatementNode>& node,
+                 SymbolTable &SymbolTable_) {
 
   std::shared_ptr<AstReadNode> ReadNode =
       std::dynamic_pointer_cast<AstReadNode>(node);
   std::string symbol = ReadNode->getIdentifier();
 
-  if (symbolTable.recordExists(symbol)) {
+  if (SymbolTable_.recordExists(symbol)) {
     throw std::invalid_argument(Error::Format(
         "Fatal: Symbol \"%s\" is already recorded.",
         symbol.c_str()));
@@ -21,11 +21,11 @@ void Memory::Get(std::shared_ptr<AstStatementNode> node,
 
   std::string val;
   std::cin >> val;
-  symbolTable.recordSymbol(symbol, "\"" + val + "\"");
+  SymbolTable_.recordSymbol(symbol, "\"" + val + "\"");
 }
 
-void Memory::Let(std::shared_ptr<AstStatementNode> node,
-                 SymbolTable &symbolTable) {
+void Memory::Let(const std::shared_ptr<AstStatementNode>& node,
+                 SymbolTable &SymbolTable_) {
 
   std::shared_ptr<AstDeclrNode> DeclrNode =
       std::dynamic_pointer_cast<AstDeclrNode>(node);
@@ -35,13 +35,8 @@ void Memory::Let(std::shared_ptr<AstStatementNode> node,
 
   if (klen > 0 && Token::getKind(value[0]) !=
                       Token::Kind::DoubleQuote) {
-    value = symbolTable.getSymbolValue(value, 1);
+    value = SymbolTable_.getSymbolValue(value, 1);
   }
 
-  if (klen > 0 && value.substr(1, 6) == "__kind") {
-    throw std::invalid_argument(
-        Error::Format(Error::reservedValue, value.c_str()));
-  }
-
-  symbolTable.recordSymbol(symbol, value);
+  SymbolTable_.recordSymbol(symbol, value);
 }

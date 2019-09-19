@@ -27,13 +27,13 @@ private:
   std::string _val, _var;
 
 public:
-  AstDeclrNode(TOKENS tokens);
-  TOKENS getTokens(void);
+  explicit AstDeclrNode(const TOKENS &tokens);
+  TOKENS getTokens(void) override;
 };
 
 struct DummyNode : public AstStatementNode {
 public:
-  DummyNode(TOKENS tokens);
+  explicit DummyNode(const TOKENS &tokens);
 };
 
 struct AstIfNode : public AstStatementNode, Parse::If {
@@ -42,8 +42,8 @@ private:
   std::string _operator, _lhs, _rhs;
 
 public:
-  AstIfNode(TOKENS tokens);
-  TOKENS getTokens(void);
+  explicit AstIfNode(const TOKENS &tokens);
+  TOKENS getTokens(void) override;
 };
 
 struct AstPrintNode : public AstStatementNode,
@@ -52,8 +52,9 @@ private:
   TOKENS _tokens;
 
 public:
-  AstPrintNode(TOKENS tokens, SymbolTable &SymbolTable_);
-  TOKENS getTokens(void);
+  AstPrintNode(const TOKENS &tokens,
+               SymbolTable &SymbolTable_);
+  TOKENS getTokens(void) override;
 };
 
 struct AstReadNode : public AstStatementNode,
@@ -63,8 +64,8 @@ private:
   std::string _identifier;
 
 public:
-  AstReadNode(TOKENS tokens);
-  TOKENS getTokens(void);
+  explicit AstReadNode(const TOKENS &tokens);
+  TOKENS getTokens(void) override;
 };
 
 /* Always at last */
@@ -74,17 +75,18 @@ private:
   SymbolTable &_SymbolTable;
   std::stack<std::shared_ptr<AstStatementNode>> _stack;
   std::vector<std::shared_ptr<AstStatementNode>> _body;
-  void _visitNodes(
-      std::vector<std::shared_ptr<AstStatementNode>> vec);
+  static void _visitNodes(
+      const std::vector<std::shared_ptr<AstStatementNode>>& vec);
 
 public:
-  AST(SymbolTable &SymbolTable_);
-  void appendNode(TOKENS tokens);
+  explicit AST(SymbolTable &SymbolTable_);
+  void appendNode(const TOKENS &tokens);
   void dumpSymbolTable(void);
   void dumpSyntaxTree(void);
   std::vector<std::shared_ptr<AstStatementNode>>
   getProgramBody(void);
   static std::shared_ptr<AstStatementNode>
-  toAstNodeType(TOKENS tokens, SymbolTable &SymbolTable_);
+  toAstNodeType(const TOKENS &tokens,
+                SymbolTable &SymbolTable_);
   bool verifyGoodProgram();
 };

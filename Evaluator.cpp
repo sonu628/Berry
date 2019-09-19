@@ -3,13 +3,12 @@
 
 #include "Evaluator.h"
 #include "AST.h"
-#include "Error.h"
 #include "Parse.h"
 #include "Token.h"
 
 void Evaluator::Evaluate(
-    std::shared_ptr<AstStatementNode> node,
-    SymbolTable &symbolTable) {
+    const std::shared_ptr<AstStatementNode>& node,
+    SymbolTable &SymbolTable_) {
 
   std::shared_ptr<AstIfNode> IfNode =
       std::dynamic_pointer_cast<AstIfNode>(node);
@@ -17,12 +16,12 @@ void Evaluator::Evaluate(
   std::string value = IfNode->getRhs();
 
   std::string actualValue =
-      symbolTable.getSymbolValue(symbol, 1);
+      SymbolTable_.getSymbolValue(symbol, 1);
 
   switch (Token::getKind(IfNode->getOperator())) {
   case Token::Kind::Comparison: {
     if (value == actualValue) {
-      symbolTable.incrementStackValue();
+      SymbolTable_.incrementStackValue();
     }
 
     break;
@@ -30,7 +29,7 @@ void Evaluator::Evaluate(
 
   case Token::Kind::NotEqualTo: {
     if (value != actualValue) {
-      symbolTable.incrementStackValue();
+      SymbolTable_.incrementStackValue();
     }
 
     break;
