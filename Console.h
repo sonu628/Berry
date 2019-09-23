@@ -7,6 +7,6 @@
 #include "SymbolTable.h"
 
 namespace Console {
-void println(std::shared_ptr<AstStatementNode> node,
-             SymbolTable &symbolTable);
+void println(const std::shared_ptr<AstStatementNode>& node,
+             SymbolTable &SymbolTable_);
 } // namespace Console
