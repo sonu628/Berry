@@ -14,10 +14,8 @@ void SymbolTable::dumpContents(void) {
   SYMBOL_TBL::iterator itr = std::begin(_table);
   /* TODO: Handle case when _values.size() > 0 */
   while (itr != std::end(_table)) {
-    if (itr->second->_values[0].substr(0, 6) != "__kind") {
-      _Console::Write("%s - %s", itr->first.c_str(),
-                      itr->second->_values[0].c_str());
-    }
+    _Console::Write("%s - %s", itr->first.c_str(),
+                    itr->second->_values[0].c_str());
 
     itr++;
   }
