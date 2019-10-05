@@ -84,12 +84,11 @@ Lexer::tokenize(void) {
           Error::tokenAfterQuote, tk.c_str()));
     }
 
-    if (Token::getKind(tk) == Token::Kind::HashTag) {
-      return tokens;
-    }
-
-    if (Token::getKind(tk) == Token::Kind::DoubleQuote) {
-      nquote++;
+    switch (Token::getKind(tk)) {
+    case Token::Kind::HashTag: return tokens;
+    case Token::Kind::DoubleQuote: nquote++; break;
+    /* To silence the compiler */
+    default:;
     }
 
     tokens.push_back({tk, _classifyToken(tk)});
