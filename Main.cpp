@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
   Args Args_(AST_);
   Args_.collect(argc, argv);
 
-  bool isFileProvided = argc >= 2 ? true : false;
+  bool isFileProvided = argc >= 2;
   std::string sourceFile = isFileProvided ? argv[1] : "";
   Lexer Lexer_(sourceFile, SymbolTable_);
 
@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
     std::cout << "> ";
     std::getline(std::cin, line);
 
-    while (line.size()) {
+    while (!line.empty()) {
       Lexer_.setLine(line);
       AST_.appendNode(Lexer_.tokenize());
       std::cout << "> ";
