@@ -7,45 +7,44 @@
 #include "Token.h"
 
 void Console::println(
-    std::shared_ptr<AstStatementNode> node,
-    SymbolTable &symbolTable) {
+    const std::shared_ptr<AstStatementNode> &node,
+    SymbolTable &SymbolTable_) {
 
   std::shared_ptr<AstPrintNode> PrintNode =
       std::dynamic_pointer_cast<AstPrintNode>(node);
+
   std::string val;
   TOKENS tokens = PrintNode->getTokens();
+  tokens.erase(std::begin(tokens));
 
-  if (static_cast<int>(tokens.size()) == 2) {
-    /**
-     * print[ln] <token_1>
-     *            ^^^^^^^ most likely to be a var.
-     */
-    val = tokens[1].first;
-    if (static_cast<int>(val.size()) > 0 &&
-        Token::getKind(val[0]) == Token::Kind::Dollar) {
-      val.erase(0, 1);
+  for (const auto &p : tokens) {
+    if (Token::getKind(p.first) == Token::Kind::DoubleQuote) {
+      continue;
     }
 
-    val = symbolTable.getSymbolValue(val, 0);
-  } else {
-    std::for_each(
-        ++std::begin(tokens), std::end(tokens),
-        [&symbolTable,
-         &val](std::pair<std::string, std::string> p) {
-          std::string s = p.first;
-          
-          if (static_cast<int>(s.size()) > 0 &&
-              Token::getKind(s[0]) == Token::Kind::Dollar) {
-            s.erase(0, 1);
-            val += symbolTable.getSymbolValue(s, 0) + " ";
-          } else {
-            val += s + " ";
-          }
-        });
-  }
+    std::string token = p.first + " ";
 
-  if (Token::isValidLiteral(val)) {
-    Token::trimQuotes(val);
+    switch (Token::getKind(token[0])) {
+    case Token::Kind::Dollar:
+      token.erase(0, 1);
+      token.erase(token.size() - 1, 1);
+      val += SymbolTable_.getSymbolValue(token, 0);
+      break;
+
+    case Token::Kind::DoubleQuote:
+      token.erase(0, 1);
+      val += token;
+      break;
+
+    default:
+      if (static_cast<int>(tokens.size()) > 1) {
+        val += token;
+        break;
+      } else {
+        throw std::invalid_argument(Error::Format(
+            Error::invalidFormatting, token.c_str()));
+      }
+    }
   }
 
   _Console::Write("%s", val.c_str());
