@@ -17,7 +17,7 @@ public:
   void decrementStackValue();
   void dumpContents(void);
   unsigned int getStackValue();
-  std::string getSymbolValue(const std::string &symbol,
+  std::string getSymbolValue(std::string &symbol,
                              unsigned int presQuotes);
   void incrementStackValue();
   bool recordExists(const std::string &symbol);

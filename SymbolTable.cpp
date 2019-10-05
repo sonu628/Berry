@@ -2,7 +2,10 @@
 //
 
 #include "SymbolTable.h"
+
 #include "Error.h"
+#include "Token.h"
+#include <utility>
 
 SymbolTable::SymbolTable() : _stackValue(0) {}
 
@@ -26,8 +29,12 @@ unsigned int SymbolTable::getStackValue(void) {
 }
 
 std::string
-SymbolTable::getSymbolValue(const std::string &symbol,
+SymbolTable::getSymbolValue(std::string &symbol,
                             unsigned int presQuotes) {
+  if (Token::getKind(symbol[0]) == Token::Kind::Dollar) {
+    symbol.erase(0, 1);
+  }
+
   if (recordExists(symbol)) {
     auto val = _table[symbol]->_values[0];
     if (!presQuotes && static_cast<int>(val.size()) > 0) {
@@ -52,7 +59,6 @@ bool SymbolTable::recordExists(const std::string &symbol) {
 
 void SymbolTable::recordSymbol(const std::string &symbol,
                                std::string kind) {
-
   _table[symbol] = std::make_shared<Declr>(
-      std::vector<std::string>{kind});
+      std::vector<std::string>{std::move(kind)});
 }
