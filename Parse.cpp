@@ -48,7 +48,9 @@ Parse::If::If(TOKENS tokens) : _tokens(std::move(tokens)) {
   TOKENS::iterator itr = std::begin(_tokens) + 2;
   std::string c1 = (*itr).first;
   std::string c2 = (*(itr + 1)).first;
-  _operator = _compOps.find(c2) != std::end(_compOps) ? c1 + c2 : c1;
+  _operator = _compOps.find(c2) != std::end(_compOps)
+                  ? c1 + c2
+                  : c1;
 
   assert(_compOps.find(_operator) != std::end(_compOps) &&
          _operator.size() == 2);
@@ -59,8 +61,7 @@ Parse::If::If(TOKENS tokens) : _tokens(std::move(tokens)) {
 
   if (Token::getKind(_tokens[4].first) !=
       Token::Kind::DoubleQuote) {
-    SyntaxNS::assertSize(static_cast<int>(_rhs.size()),
-                         4);
+    SyntaxNS::assertSize(static_cast<int>(_rhs.size()), 4);
   }
 }
 
