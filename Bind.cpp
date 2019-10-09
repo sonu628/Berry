@@ -19,7 +19,7 @@ Bind::Bind(SymbolTable &SymbolTable_)
 }
 
 void Bind::invokeNode(
-    const std::shared_ptr<AstStatementNode>& node) {
+    const std::shared_ptr<AstStatementNode> &node) {
   std::string keyword =
       std::begin(node->getTokens())->first;
 
@@ -29,12 +29,12 @@ void Bind::invokeNode(
     (*itr).second(node, _SymbolTable);
 
     if (_SymbolTable.getStackValue() > stackVal) {
-      for (const std::shared_ptr<AstStatementNode>& lnode :
+      for (const std::shared_ptr<AstStatementNode> &lnode :
            node->_body) {
         invokeNode(lnode);
       }
     } else {
-      for (const std::shared_ptr<AstStatementNode>& rnode :
+      for (const std::shared_ptr<AstStatementNode> &rnode :
            node->_alt) {
         invokeNode(rnode);
       }
@@ -47,9 +47,11 @@ void Bind::invokeNode(
 }
 
 unsigned int Bind::invokeAllNodes(
-    const std::vector<std::shared_ptr<AstStatementNode>>& body) {
+    const std::vector<std::shared_ptr<AstStatementNode>>
+        &body) {
   unsigned int nodeCount = 0;
-  for (const std::shared_ptr<AstStatementNode>& node : body) {
+  for (const std::shared_ptr<AstStatementNode> &node :
+       body) {
     nodeCount++;
     try {
       invokeNode(node);
