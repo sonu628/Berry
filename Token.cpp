@@ -72,21 +72,12 @@ bool Token::isValidLiteral(std::string s) {
 }
 
 bool Token::isValidToken(std::string s) {
-  if (std::any_of(std::begin(s), std::end(s), [](char c) {
-        return !isalnum(c) && c != '_';
-      })) {
-    return false;
-  }
-
-  return true;
+  return !std::any_of(
+      std::begin(s), std::end(s),
+      [](char c) { return !isalnum(c) && c != '_'; });
 }
 
 void Token::trimQuotes(std::string &s) {
-  /**
-   * If there are multiple spaces, it is likely that the
-   * token was weaved using Syntax::wrapToken() and so we
-   * erase the double quote along with the next space.
-   */
   std::size_t count =
       std::count(std::begin(s), std::end(s), ' ');
   int cbeg = count > 1 ? 2 : 1;
