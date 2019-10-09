@@ -5,7 +5,10 @@
 
 /* Built-in errors & warnings */
 char Error::errorInLine[] = "Fatal L%d: %s.";
-char Error::invalidFormatting[] = "Fatal: Invalid formatting: \"%s\".";
+char Error::fileWrite[] =
+    "Fatal: Could not write to history file.";
+char Error::invalidFormatting[] =
+    "Fatal: Invalid formatting: \"%s\"";
 char Error::invalidLiteral[] =
     "Fatal: \"%s\" is invalid literal";
 char Error::invalidKeyword[] =

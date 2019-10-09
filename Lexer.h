@@ -4,6 +4,8 @@
 #pragma once
 
 #define SOURCE_FILE_IO_MODE "r"
+#define HISTORY_FILE_IO_MODE "w"
+#define HISTORY_FILE "BerryHistory"
 
 #include "SymbolTable.h"
 #include <array>
@@ -13,7 +15,7 @@
 
 struct Lexer {
 private:
-  FILE *_fd;
+  FILE *_fd, *_hisFd;
   std::string _sourceFile;
   unsigned int _lineNumber;
   SymbolTable &_SymbolTable;
@@ -44,6 +46,10 @@ public:
   ~Lexer() {
     if (_fd) {
       fclose(_fd);
+    }
+
+    if (_hisFd) {
+      fclose(_hisFd);
     }
   }
 };

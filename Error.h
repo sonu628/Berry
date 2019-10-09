@@ -17,6 +17,7 @@ std::string Format(const char *err, ...);
 
 /* Always use errors from this namespace */
 extern char errorInLine[];
+extern char fileWrite[];
 extern char invalidFormatting[];
 extern char invalidLiteral[];
 extern char invalidKeyword[];

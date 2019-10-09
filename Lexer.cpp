@@ -8,21 +8,24 @@
 #include "Lexer.h"
 #include "Error.h"
 #include "Token.h"
+#include <cstdio>
 #include <regex>
 #include <unordered_set>
 #include <utility>
 
 Lexer::Lexer(std::string sourceFile,
              SymbolTable &SymbolTable_)
-    : _fd(nullptr), _sourceFile(std::move(sourceFile)),
-      _lineNumber(0), _SymbolTable(SymbolTable_), _line{} {}
+    : _fd(nullptr),
+      _hisFd(fopen(HISTORY_FILE, HISTORY_FILE_IO_MODE)),
+      _sourceFile(std::move(sourceFile)), _lineNumber(0),
+      _SymbolTable(SymbolTable_), _line{} {}
 
 unsigned int Lexer::getLineNumber(void) {
   return _lineNumber;
 }
 
 std::string Lexer::getFileExtension(void) {
-  if (static_cast<int>(_sourceFile.size()) == 0) {
+  if (_sourceFile.empty()) {
     return "";
   }
 
@@ -64,6 +67,15 @@ void Lexer::setLine(const std::string &line) {
 
 std::vector<std::pair<std::string, TokenType>>
 Lexer::tokenize(void) {
+  if (!_hisFd) {
+    throw std::invalid_argument(
+        Error::Format(Error::fileWrite));
+  }
+
+  std::array<char, 1024> buf{};
+  sprintf(buf.data(), "%s\n", _line.data());
+  fputs(buf.data(), _hisFd);
+
   std::string s = _line.data();
   std::regex rg("[$\\w']+|[?#!<>=()+-/*\"]");
   std::vector<std::pair<std::string, TokenType>> tokens;
@@ -85,8 +97,11 @@ Lexer::tokenize(void) {
     }
 
     switch (Token::getKind(tk)) {
-    case Token::Kind::HashTag: return tokens;
-    case Token::Kind::DoubleQuote: nquote++; break;
+    case Token::Kind::HashTag:
+      return tokens;
+    case Token::Kind::DoubleQuote:
+      nquote++;
+      break;
     /* To silence the compiler */
     default:;
     }
