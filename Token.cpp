@@ -57,7 +57,7 @@ bool Token::isValidLiteral(std::string s) {
   if (static_cast<int>(s.size()) == 0) {
     return false;
   }
-  
+
   char beg = s[0];
   char end = s[s.size() - 1];
 
@@ -90,4 +90,28 @@ void Token::trimQuotes(std::string &s) {
 
   throw std::invalid_argument(Error::Format(
       "Fatal: Invalid literal - %s", s.c_str()));
+}
+
+SyntaxTokenstream::SyntaxTokenstream(const SyntaxTokens &syntaxTokens) {
+  for (const std::pair<std::string, TokenType> &p :
+       syntaxTokens) {
+    _stream.push(p);
+  }
+}
+
+std::pair<std::string, TokenType>
+SyntaxTokenstream::consume(void) {
+  std::pair<std::string, TokenType> front = _stream.front();
+  _stream.pop();
+  return front;
+}
+
+bool SyntaxTokenstream::isEmpty(void) { return _stream.empty(); }
+
+Token::Kind SyntaxTokenstream::peek(void) {
+  return Token::getKind(_stream.front().first);
+}
+
+unsigned long SyntaxTokenstream::size(void) {
+  return _stream.size();
 }
